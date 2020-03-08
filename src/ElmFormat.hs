@@ -16,8 +16,8 @@ import ElmFormat.InputConsole (InputConsole)
 import ElmFormat.OutputConsole (OutputConsole)
 import ElmFormat.World
 
-import qualified AST.Json
-import qualified AST.Module
+import qualified ASTf.Json
+import qualified ASTf.Module
 import qualified Flags
 import qualified Data.Text as Text
 import qualified ElmFormat.Execute as Execute
@@ -292,7 +292,7 @@ data FormatResult
     | Changed FilePath Text.Text
 
 
-parseModule :: ElmVersion -> (FilePath, Text.Text) -> Either InfoMessage AST.Module.Module
+parseModule :: ElmVersion -> (FilePath, Text.Text) -> Either InfoMessage ASTf.Module.Module
 parseModule elmVersion (inputFile, inputText) =
     case Parse.parse elmVersion inputText of
         Result.Result _ (Result.Ok modu) ->
@@ -392,8 +392,8 @@ doIt elmVersion whatToDo =
                 formatFile file = (format elmVersion <$> ElmFormat.readFile file) >>= logErrorOr ElmFormat.updateFile
 
         StdinToJson ->
-            (fmap (Text.pack . Text.JSON.encode . AST.Json.showModule) <$> parseModule elmVersion <$> readStdin) >>= logErrorOr OutputConsole.writeStdout
+            (fmap (Text.pack . Text.JSON.encode . ASTf.Json.showModule) <$> parseModule elmVersion <$> readStdin) >>= logErrorOr OutputConsole.writeStdout
 
         -- TODO: this prints "Processing such-and-such-a-file.elm" which makes the JSON output invalid
         -- FileToJson inputFile ->
-        --     (fmap (Text.pack . Text.JSON.encode . AST.Json.showJSON) <$> parseModule <$> ElmFormat.readFile inputFile) >>= logErrorOr OutputConsole.writeStdout
+        --     (fmap (Text.pack . Text.JSON.encode . ASTf.Json.showJSON) <$> parseModule <$> ElmFormat.readFile inputFile) >>= logErrorOr OutputConsole.writeStdout

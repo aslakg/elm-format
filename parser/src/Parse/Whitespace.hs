@@ -1,6 +1,6 @@
 module Parse.Whitespace where
 
-import AST.V0_16
+import ASTf.V0_16
 import qualified Cheapskate.Types as Markdown
 import qualified Data.Char as Char
 import Parse.IParser

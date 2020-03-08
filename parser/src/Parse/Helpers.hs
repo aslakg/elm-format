@@ -8,10 +8,10 @@ import qualified Data.Maybe as Maybe
 import Text.Parsec hiding (newline, spaces, State)
 import Text.Parsec.Indent (indented, runIndent)
 
-import AST.V0_16
-import qualified AST.Expression
-import qualified AST.Helpers as Help
-import qualified AST.Variable
+import ASTf.V0_16
+import qualified ASTf.Expression
+import qualified ASTf.Helpers as Help
+import qualified ASTf.Variable
 import ElmVersion
 import qualified Parse.State as State
 import Parse.Comments
@@ -54,7 +54,7 @@ iParseWithState sourceName state aParser input =
 
 -- VARIABLES
 
-var :: ElmVersion -> IParser AST.Variable.Ref
+var :: ElmVersion -> IParser ASTf.Variable.Ref
 var elmVersion =
   try (qualifiedVar elmVersion) <|> qualifiedTag elmVersion <?> "a name"
 
@@ -69,16 +69,16 @@ capVar elmVersion =
   UppercaseIdentifier <$> makeVar elmVersion upper <?> "an upper case name"
 
 
-qualifiedVar :: ElmVersion -> IParser AST.Variable.Ref
+qualifiedVar :: ElmVersion -> IParser ASTf.Variable.Ref
 qualifiedVar elmVersion =
-    AST.Variable.VarRef
+    ASTf.Variable.VarRef
         <$> many (const <$> capVar elmVersion <*> string ".")
         <*> lowVar elmVersion
 
 
-qualifiedTag :: ElmVersion -> IParser AST.Variable.Ref
+qualifiedTag :: ElmVersion -> IParser ASTf.Variable.Ref
 qualifiedTag elmVersion =
-    AST.Variable.TagRef
+    ASTf.Variable.TagRef
         <$> many (try $ const <$> capVar elmVersion <*> string ".")
         <*> capVar elmVersion
 
@@ -112,10 +112,10 @@ reserved elmVersion word =
 
 -- INFIX OPERATORS
 
-anyOp :: ElmVersion -> IParser AST.Variable.Ref
+anyOp :: ElmVersion -> IParser ASTf.Variable.Ref
 anyOp elmVersion =
   (betwixt '`' '`' (qualifiedVar elmVersion) <?> "an infix operator like `andThen`")
-  <|> (AST.Variable.OpRef <$> symOp)
+  <|> (ASTf.Variable.OpRef <$> symOp)
 
 
 symOp :: IParser SymbolIdentifier
@@ -480,7 +480,7 @@ located parser =
       return (start, value, end)
 
 
-accessible :: ElmVersion -> IParser AST.Expression.Expr -> IParser AST.Expression.Expr
+accessible :: ElmVersion -> IParser ASTf.Expression.Expr -> IParser ASTf.Expression.Expr
 accessible elmVersion exprParser =
   do  start <- getMyPosition
 
@@ -498,11 +498,11 @@ accessible elmVersion exprParser =
                 end <- getMyPosition
                 return . A.at start end $
                     -- case rootExpr of
-                    --   AST.Expression.VarExpr (AST.Variable.VarRef name@(c:_))
+                    --   ASTf.Expression.VarExpr (ASTf.Variable.VarRef name@(c:_))
                     --     | Char.isUpper c ->
-                    --         AST.Expression.VarExpr $ AST.Variable.VarRef (name ++ '.' : v)
+                    --         ASTf.Expression.VarExpr $ ASTf.Variable.VarRef (name ++ '.' : v)
                     --   _ ->
-                        AST.Expression.Access annotatedRootExpr v
+                        ASTf.Expression.Access annotatedRootExpr v
 
 
 dot :: IParser ()

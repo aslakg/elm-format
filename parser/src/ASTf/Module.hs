@@ -1,16 +1,16 @@
-module AST.Module
+module ASTf.Module
     ( Module(..), Header(..), SourceTag(..), SourceSettings
     , UserImport, ImportMethod(..)
     , DetailedListing(..)
     , defaultHeader
     ) where
 
-import AST.Declaration (TopLevelStructure, Declaration)
-import qualified AST.Variable as Var
+import ASTf.Declaration (TopLevelStructure, Declaration)
+import qualified ASTf.Variable as Var
 import qualified Cheapskate.Types as Markdown
 import Data.Map.Strict (Map)
 import qualified Reporting.Annotation as A
-import AST.V0_16
+import ASTf.V0_16
 
 
 -- MODULES

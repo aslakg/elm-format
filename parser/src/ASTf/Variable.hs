@@ -1,6 +1,6 @@
-module AST.Variable where
+module ASTf.Variable where
 
-import AST.V0_16
+import ASTf.V0_16
 import Data.Map.Strict
 
 

@@ -2,8 +2,8 @@ module Parse.Binop (binops) where
 
 import Text.Parsec ((<|>), choice, try)
 
-import qualified AST.Expression as E
-import qualified AST.Variable as Var
+import qualified ASTf.Expression as E
+import qualified ASTf.Variable as Var
 import Parse.Helpers (commitIf, addLocation, multilineToBool)
 import Parse.IParser
 import Parse.Whitespace

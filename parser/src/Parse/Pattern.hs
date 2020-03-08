@@ -2,8 +2,8 @@ module Parse.Pattern (term, expr) where
 
 import Text.Parsec ((<|>), (<?>), char, choice, optionMaybe, try)
 
-import AST.V0_16
-import qualified AST.Pattern as P
+import ASTf.V0_16
+import qualified ASTf.Pattern as P
 import ElmVersion
 import Parse.Helpers
 import qualified Parse.Literal as Literal

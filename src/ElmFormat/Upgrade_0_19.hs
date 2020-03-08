@@ -2,11 +2,11 @@
 {-# LANGUAGE FlexibleInstances #-}
 module ElmFormat.Upgrade_0_19 (transform) where
 
-import AST.V0_16
-import AST.Expression
-import AST.MapExpr
-import AST.Pattern
-import AST.Variable
+import ASTf.V0_16
+import ASTf.Expression
+import ASTf.MapExpr
+import ASTf.Pattern
+import ASTf.Variable
 import Reporting.Annotation (Located(A))
 
 import qualified Data.Map.Strict as Dict
@@ -40,7 +40,7 @@ transform exposed importAliases expr =
                     [makeArg "f", makeArg "a", makeArg "b"] []
                     (noRegion $ App
                         (makeVarRef "f")
-                        [([], noRegion $ AST.Expression.Tuple
+                        [([], noRegion $ ASTf.Expression.Tuple
                             [ Commented [] (makeVarRef "a") []
                             , Commented [] (makeVarRef "b") []
                             ] False
@@ -51,7 +51,7 @@ transform exposed importAliases expr =
                 )
               , ( "uncurry"
                 , Lambda
-                    [makeArg "f", ([], noRegion $ AST.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
+                    [makeArg "f", ([], noRegion $ ASTf.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
                     (noRegion $ App
                         (makeVarRef "f")
                         [ ([], makeVarRef "a")
@@ -119,7 +119,7 @@ transform exposed importAliases expr =
                 Lambda
                     (fmap makeArg vars)
                     []
-                    (noRegion $ AST.Expression.Tuple (fmap (\v -> Commented [] (makeVarRef v) []) vars) False)
+                    (noRegion $ ASTf.Expression.Tuple (fmap (\v -> Commented [] (makeVarRef v) []) vars) False)
                     False
     in
     case RA.drop expr of
@@ -152,7 +152,7 @@ expandHtmlStyle styleExposed importAlias (preComma, (pre, WithEol term eol)) =
     let
         lambda fRef =
             Lambda
-                [([], noRegion $ AST.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
+                [([], noRegion $ ASTf.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
                 (noRegion $ App
                     (noRegion $ VarExpr $ fRef)
                     [ ([], makeVarRef "a")
@@ -222,7 +222,7 @@ inlineVar' name insertMultiline value expr =
     case expr of
         VarExpr (VarRef [] n) | n == name -> Just value
 
-        AST.Expression.Tuple terms' multiline ->
+        ASTf.Expression.Tuple terms' multiline ->
             let
                 step (acc, expand) t@(Commented pre (A _ term) post) =
                     case inlineVar' name insertMultiline value term of
@@ -231,7 +231,7 @@ inlineVar' name insertMultiline value expr =
 
                 (terms'', multiline'') = foldl step (ReversedList.empty, multiline) terms'
             in
-            Just $ AST.Expression.Tuple (ReversedList.toList terms'') multiline''
+            Just $ ASTf.Expression.Tuple (ReversedList.toList terms'') multiline''
 
         -- TODO: handle expanding multiline in contexts other than tuples
 
@@ -249,8 +249,8 @@ applyLambda lambda args appMultiline =
                  ) ->
                     Just [(name, Parens $ Commented (preVar ++ preArg) arg' [])]
 
-                ( (preVar, A _ (AST.Pattern.Tuple [Commented preA (A _ (VarPattern nameA)) postA, Commented preB (A _ (VarPattern nameB)) postB]))
-                 , (preArg, A _ (AST.Expression.Tuple [Commented preAe eA postAe, Commented preBe eB postBe] _))
+                ( (preVar, A _ (ASTf.Pattern.Tuple [Commented preA (A _ (VarPattern nameA)) postA, Commented preB (A _ (VarPattern nameB)) postB]))
+                 , (preArg, A _ (ASTf.Expression.Tuple [Commented preAe eA postAe, Commented preBe eB postBe] _))
                  ) ->
                     Just
                         [ (nameA, Parens $ Commented (preVar ++ preArg) (noRegion $ Parens $ Commented (preA ++ preAe) eA (postAe ++ postA)) [])

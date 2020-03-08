@@ -3,12 +3,12 @@ module Test.Generators where
 import Data.Map.Strict
 import Test.QuickCheck
 
-import AST.V0_16
-import qualified AST.Declaration
-import qualified AST.Expression
-import qualified AST.Module
-import qualified AST.Pattern
-import qualified AST.Variable
+import ASTf.V0_16
+import qualified ASTf.Declaration
+import qualified ASTf.Expression
+import qualified ASTf.Module
+import qualified ASTf.Pattern
+import qualified ASTf.Variable
 import qualified Reporting.Annotation
 import qualified Reporting.Region
 

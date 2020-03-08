@@ -3,13 +3,13 @@ module Parse.Declaration where
 
 import Text.Parsec ( (<|>), (<?>), choice, digit, optionMaybe, string, try )
 
-import AST.Declaration
+import ASTf.Declaration
 import ElmVersion
 import Parse.Comments
 import qualified Parse.Expression as Expr
 import Parse.Helpers as Help
 import qualified Parse.Type as Type
-import AST.V0_16
+import ASTf.V0_16
 import Parse.IParser
 import Parse.Whitespace
 
@@ -30,7 +30,7 @@ topLevelStructure entry =
 
 -- TYPE ANNOTATIONS and DEFINITIONS
 
-definition :: ElmVersion -> IParser AST.Declaration.Declaration
+definition :: ElmVersion -> IParser ASTf.Declaration.Declaration
 definition elmVersion =
     (Expr.typeAnnotation elmVersion TypeAnnotation <|> Expr.definition elmVersion Definition)
     <?> "a value definition"
@@ -38,7 +38,7 @@ definition elmVersion =
 
 -- TYPE ALIAS and UNION TYPES
 
-typeDecl :: ElmVersion -> IParser AST.Declaration.Declaration
+typeDecl :: ElmVersion -> IParser ASTf.Declaration.Declaration
 typeDecl elmVersion =
   do  try (reserved elmVersion "type") <?> "a type declaration"
       postType <- forcedWS
@@ -52,7 +52,7 @@ typeDecl elmVersion =
         Just postAlias ->
             do  tipe <- Type.expr elmVersion <?> "a type"
                 return $
-                  AST.Declaration.TypeAlias
+                  ASTf.Declaration.TypeAlias
                     postType
                     (Commented postAlias (name, args) preEquals)
                     (postEquals, tipe)
@@ -61,7 +61,7 @@ typeDecl elmVersion =
             do
                 tags_ <- pipeSep1 (Type.tag elmVersion) <?> "a constructor for a union type"
                 return
-                    AST.Declaration.Datatype
+                    ASTf.Declaration.Datatype
                         { nameWithArgs = Commented postType (name, args) preEquals
                         , tags = exposedToOpen postEquals tags_
                         }
@@ -70,7 +70,7 @@ typeDecl elmVersion =
 -- INFIX
 
 
-infixDecl :: ElmVersion -> IParser AST.Declaration.Declaration
+infixDecl :: ElmVersion -> IParser ASTf.Declaration.Declaration
 infixDecl elmVersion =
     expecting "an infix declaration" $
     choice
@@ -79,40 +79,40 @@ infixDecl elmVersion =
         ]
 
 
-infixDecl_0_19 :: ElmVersion -> IParser AST.Declaration.Declaration
+infixDecl_0_19 :: ElmVersion -> IParser ASTf.Declaration.Declaration
 infixDecl_0_19 elmVersion =
     let
         assoc =
             choice
-                [ string "right" >> return AST.Declaration.R
-                , string "non" >> return AST.Declaration.N
-                , string "left" >> return AST.Declaration.L
+                [ string "right" >> return ASTf.Declaration.R
+                , string "non" >> return ASTf.Declaration.N
+                , string "left" >> return ASTf.Declaration.L
                 ]
     in
-    AST.Declaration.Fixity_0_19
+    ASTf.Declaration.Fixity_0_19
         <$> (try (reserved elmVersion "infix") *> preCommented assoc)
         <*> (preCommented $ (\n -> read [n]) <$> digit)
         <*> (commented symOpInParens)
         <*> (equals *> preCommented (lowVar elmVersion))
 
 
-infixDecl_0_16 :: ElmVersion -> IParser AST.Declaration.Declaration
+infixDecl_0_16 :: ElmVersion -> IParser ASTf.Declaration.Declaration
 infixDecl_0_16 elmVersion =
   do  assoc <-
           choice
-            [ try (reserved elmVersion "infixl") >> return AST.Declaration.L
-            , try (reserved elmVersion "infixr") >> return AST.Declaration.R
-            , try (reserved elmVersion "infix")  >> return AST.Declaration.N
+            [ try (reserved elmVersion "infixl") >> return ASTf.Declaration.L
+            , try (reserved elmVersion "infixr") >> return ASTf.Declaration.R
+            , try (reserved elmVersion "infix")  >> return ASTf.Declaration.N
             ]
       digitComments <- forcedWS
       n <- digit
       opComments <- forcedWS
-      AST.Declaration.Fixity assoc digitComments (read [n]) opComments <$> anyOp elmVersion
+      ASTf.Declaration.Fixity assoc digitComments (read [n]) opComments <$> anyOp elmVersion
 
 
 -- PORT
 
-port :: ElmVersion -> IParser AST.Declaration.Declaration
+port :: ElmVersion -> IParser ASTf.Declaration.Declaration
 port elmVersion =
   expecting "a port declaration" $
   do  try (reserved elmVersion "port")
@@ -126,10 +126,10 @@ port elmVersion =
       do  try hasType
           typeComments <- whitespace
           tipe <- Type.expr elmVersion <?> "a type"
-          return (AST.Declaration.PortAnnotation name typeComments tipe)
+          return (ASTf.Declaration.PortAnnotation name typeComments tipe)
 
     portDefinition name =
       do  try equals
           bodyComments <- whitespace
           expr <- Expr.expr elmVersion
-          return (AST.Declaration.PortDefinition name bodyComments expr)
+          return (ASTf.Declaration.PortDefinition name bodyComments expr)

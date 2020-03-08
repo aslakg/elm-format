@@ -10,7 +10,7 @@ import Test.QuickCheck.IO ()
 
 import Reporting.Annotation (stripRegion)
 
-import qualified AST.Module
+import qualified ASTf.Module
 import qualified Data.Text as Text
 import qualified Data.Maybe as Maybe
 import qualified ElmFormat.Parse as Parse

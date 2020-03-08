@@ -1,5 +1,5 @@
 {-# LANGUAGE DuplicateRecordFields #-}
-module AST.V0_16 where
+module ASTf.V0_16 where
 
 import qualified Reporting.Annotation as A
 import Data.Int (Int64)

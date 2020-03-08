@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wall #-}
-module AST.Helpers where
+module ASTf.Helpers where
 
 import qualified Data.Char as Char
 

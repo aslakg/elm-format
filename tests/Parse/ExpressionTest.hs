@@ -4,11 +4,11 @@ import Test.Tasty
 import Test.Tasty.HUnit
 
 import Parse.Expression
-import AST.V0_16
-import AST.Expression
-import AST.Pattern (Pattern'(Anything))
-import qualified AST.Pattern as P
-import AST.Variable
+import ASTf.V0_16
+import ASTf.Expression
+import ASTf.Pattern (Pattern'(Anything))
+import qualified ASTf.Pattern as P
+import ASTf.Variable
 import qualified Data.Map.Strict as Map
 import Text.Parsec.Char (string)
 import ElmVersion

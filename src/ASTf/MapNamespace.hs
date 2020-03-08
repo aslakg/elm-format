@@ -1,12 +1,12 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
-module AST.MapNamespace where
+module ASTf.MapNamespace where
 
-import AST.Declaration
-import AST.Expression
-import AST.MapExpr
-import AST.Variable
-import AST.V0_16
+import ASTf.Declaration
+import ASTf.Expression
+import ASTf.MapExpr
+import ASTf.Variable
+import ASTf.V0_16
 
 
 class MapNamespace a where

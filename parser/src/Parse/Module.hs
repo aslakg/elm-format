@@ -7,10 +7,10 @@ import Text.Parsec hiding (newline, spaces)
 
 import Parse.Helpers
 import Parse.Declaration as Decl
-import qualified AST.Declaration
-import qualified AST.Module as Module
-import qualified AST.Variable as Var
-import AST.V0_16
+import qualified ASTf.Declaration
+import qualified ASTf.Module as Module
+import qualified ASTf.Variable as Var
+import ASTf.V0_16
 import ElmVersion
 import Parse.IParser
 import Parse.Whitespace
@@ -40,21 +40,21 @@ elmModule elmVersion =
           h
           docs
           (preDocsComments ++ postDocsComments ++ preImportComments, imports')
-          ((map AST.Declaration.BodyComment postImportComments) ++ decls ++ (map AST.Declaration.BodyComment trailingComments))
+          ((map ASTf.Declaration.BodyComment postImportComments) ++ decls ++ (map ASTf.Declaration.BodyComment trailingComments))
 
 
-topLevel :: IParser a -> IParser [AST.Declaration.TopLevelStructure a]
+topLevel :: IParser a -> IParser [ASTf.Declaration.TopLevelStructure a]
 topLevel entry =
   (++) <$> option [] (((\x -> [x]) <$> Decl.topLevelStructure entry))
       <*> (concat <$> many (freshDef entry))
 
 
-freshDef :: IParser a -> IParser [AST.Declaration.TopLevelStructure a]
+freshDef :: IParser a -> IParser [ASTf.Declaration.TopLevelStructure a]
 freshDef entry =
     commitIf (freshLine >> (letter <|> char '_')) $
       do  comments <- freshLine
           decl <- Decl.topLevelStructure entry
-          return $ (map AST.Declaration.BodyComment comments) ++ [decl]
+          return $ (map ASTf.Declaration.BodyComment comments) ++ [decl]
 
 
 moduleDecl :: ElmVersion -> IParser (Maybe Module.Header)

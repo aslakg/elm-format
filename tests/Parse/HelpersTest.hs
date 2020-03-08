@@ -3,7 +3,7 @@ module Parse.HelpersTest where
 import Test.Tasty
 import Test.Tasty.HUnit
 
-import AST.V0_16
+import ASTf.V0_16
 import Parse.Helpers (parens'')
 import Parse.IParser
 import Text.ParserCombinators.Parsec.Char (lower)

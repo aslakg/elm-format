@@ -45,13 +45,13 @@ library
         ElmFormat
         ElmVersion
         -- exposed for tests
-        AST.Declaration
-        AST.Expression
-        AST.Helpers
-        AST.Module
-        AST.Pattern
-        AST.V0_16
-        AST.Variable
+        ASTf.Declaration
+        ASTf.Expression
+        ASTf.Helpers
+        ASTf.Module
+        ASTf.Pattern
+        ASTf.V0_16
+        ASTf.Variable
         Box
         Elm.Utils
         ElmFormat.Parse
@@ -70,12 +70,13 @@ library
         Reporting.Annotation
         Reporting.Error.Syntax
         Reporting.Region
+        Reporting.Result
         Util.List
 
     other-modules:
-        AST.Json
-        AST.MapExpr
-        AST.MapNamespace
+        ASTf.Json
+        ASTf.MapExpr
+        ASTf.MapNamespace
         -- Build_elm_format
         Cheapskate.Inlines
         Cheapskate.Parse
@@ -108,7 +109,6 @@ library
         Parse.State
         Parse.Whitespace
         Reporting.Report
-        Reporting.Result
         ReversedList
 
     build-depends:

@@ -1,16 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
-module AST.Json where
+module ASTf.Json where
 
 import Elm.Utils ((|>))
 
-import AST.Declaration
-import AST.Expression
-import AST.MapNamespace
-import AST.Module
-import AST.Pattern
-import AST.Variable
-import AST.V0_16
+import ASTf.Declaration
+import ASTf.Expression
+import ASTf.MapNamespace
+import ASTf.Module
+import ASTf.Pattern
+import ASTf.Variable
+import ASTf.V0_16
 import Data.Maybe (mapMaybe)
 import Reporting.Annotation hiding (map)
 import Text.JSON hiding (showJSON)
@@ -34,7 +34,7 @@ showModule (Module _ maybeHeader _ (_, imports) body) =
     let
         header =
             maybeHeader
-                |> Maybe.fromMaybe AST.Module.defaultHeader
+                |> Maybe.fromMaybe ASTf.Module.defaultHeader
 
         (Header _ (Commented _ name _) _ _) = header
 
@@ -199,7 +199,7 @@ instance ToJSON Expr where
           Unit _ ->
               makeObj [ type_ "UnitLiteral" ]
 
-          AST.Expression.Literal (IntNum value repr) ->
+          ASTf.Expression.Literal (IntNum value repr) ->
               makeObj
                   [ type_ "IntLiteral"
                   , ("value", JSRational False $ toRational value)
@@ -210,7 +210,7 @@ instance ToJSON Expr where
                     )
                   ]
 
-          AST.Expression.Literal (FloatNum value repr) ->
+          ASTf.Expression.Literal (FloatNum value repr) ->
               makeObj
                   [ type_ "FloatLiteral"
                   , ("value", JSRational False $ toRational value)
@@ -221,7 +221,7 @@ instance ToJSON Expr where
                     )
                   ]
 
-          AST.Expression.Literal (Boolean value) ->
+          ASTf.Expression.Literal (Boolean value) ->
             makeObj
                 [ type_ "ExternalReference"
                 , ("module", JSString $ toJSString "Basics")
@@ -229,7 +229,7 @@ instance ToJSON Expr where
                 , sourceLocation region
                 ]
 
-          AST.Expression.Literal (Chr chr) ->
+          ASTf.Expression.Literal (Chr chr) ->
               makeObj
                   [ type_ "CharLiteral"
                   , ("module", JSString $ toJSString "Char")
@@ -237,7 +237,7 @@ instance ToJSON Expr where
                   , sourceLocation region
                   ]
 
-          AST.Expression.Literal (Str str _) ->
+          ASTf.Expression.Literal (Str str _) ->
               makeObj
                   [ type_ "StringLiteral"
                   , ("module", JSString $ toJSString "String")
@@ -305,7 +305,7 @@ instance ToJSON Expr where
                   , ("terms", JSArray $ fmap showJSON (map (\(_, (_, WithEol term _)) -> term) terms))
                   ]
 
-          AST.Expression.Tuple exprs _ ->
+          ASTf.Expression.Tuple exprs _ ->
               makeObj
                   [ type_ "TupleLiteral"
                   , ("terms", JSArray $ fmap showJSON (map (\(Commented _ expr _) -> expr) exprs))
@@ -317,7 +317,7 @@ instance ToJSON Expr where
           TupleFunction n ->
             variableReference region $ replicate (n-1) ','
 
-          AST.Expression.Record base fields _ _ ->
+          ASTf.Expression.Record base fields _ _ ->
               let
                   fieldsJSON =
                       ( "fields"

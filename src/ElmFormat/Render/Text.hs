@@ -3,15 +3,15 @@ module ElmFormat.Render.Text where
 
 import Elm.Utils ((|>))
 import ElmVersion (ElmVersion)
-import AST.V0_16
+import ASTf.V0_16
 
-import qualified AST.Module
+import qualified ASTf.Module
 import qualified Box
 import qualified Data.Text as Text
 import qualified ElmFormat.Render.Box as Render
 
 
-render :: ElmVersion -> AST.Module.Module -> Text.Text
+render :: ElmVersion -> ASTf.Module.Module -> Text.Text
 render elmVersion modu =
     renderBox $ Render.formatModule elmVersion True 2 modu
 

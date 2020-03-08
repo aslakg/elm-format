@@ -1,10 +1,10 @@
 {-# LANGUAGE FlexibleInstances #-}
-module AST.MapExpr where
+module ASTf.MapExpr where
 
-import AST.V0_16
-import AST.Expression
-import AST.Pattern
-import AST.Variable
+import ASTf.V0_16
+import ASTf.Expression
+import ASTf.Pattern
+import ASTf.Variable
 import Reporting.Annotation
 
 
@@ -56,7 +56,7 @@ instance MapExpr Expr' where
   mapExpr f expr =
     case expr of
         Unit _ -> expr
-        AST.Expression.Literal _ -> expr
+        ASTf.Expression.Literal _ -> expr
         VarExpr _ -> expr
 
         App f' args multiline ->
@@ -71,11 +71,11 @@ instance MapExpr Expr' where
             ExplicitList (mapExpr f terms') post multiline
         Range e1 e2 multiline ->
             Range (mapExpr f e1) (mapExpr f e2) multiline
-        AST.Expression.Tuple es multiline ->
-            AST.Expression.Tuple (mapExpr f es) multiline
+        ASTf.Expression.Tuple es multiline ->
+            ASTf.Expression.Tuple (mapExpr f es) multiline
         TupleFunction _ -> expr
-        AST.Expression.Record b fs post multiline ->
-            AST.Expression.Record b (mapExpr f fs) post multiline
+        ASTf.Expression.Record b fs post multiline ->
+            ASTf.Expression.Record b (mapExpr f fs) post multiline
         Access e field' ->
             Access (mapExpr f e) field'
         AccessFunction _ -> expr

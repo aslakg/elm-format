@@ -7,7 +7,7 @@ import Text.Parsec.Char (octDigit, space, upper)
 import Parse.Helpers (processAs, escaped, expecting, sandwich, betwixt)
 import Parse.IParser
 
-import AST.V0_16
+import ASTf.V0_16
 
 
 literal :: IParser Literal

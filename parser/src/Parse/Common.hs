@@ -4,7 +4,7 @@ module Parse.Common
     , checkMultiline
     ) where
 
-import AST.V0_16
+import ASTf.V0_16
 import Text.Parsec
 import Parse.Helpers
 import Parse.Whitespace

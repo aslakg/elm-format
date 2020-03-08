@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
-module AST.Pattern where
+module ASTf.Pattern where
 
-import AST.V0_16
+import ASTf.V0_16
 import qualified Reporting.Annotation as A
 
 

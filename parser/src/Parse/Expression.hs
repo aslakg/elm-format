@@ -14,10 +14,10 @@ import qualified Parse.Type as Type
 import Parse.IParser
 import Parse.Whitespace
 
-import AST.V0_16
-import qualified AST.Expression as E
-import qualified AST.Pattern as P
-import qualified AST.Variable as Var
+import ASTf.V0_16
+import qualified ASTf.Expression as E
+import qualified ASTf.Pattern as P
+import qualified ASTf.Variable as Var
 import ElmVersion
 import qualified Reporting.Annotation as A
 

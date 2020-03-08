@@ -2,7 +2,7 @@ module Parse.Comments where
 
 import Parse.Whitespace
 import Parse.IParser
-import AST.V0_16
+import ASTf.V0_16
 
 
 

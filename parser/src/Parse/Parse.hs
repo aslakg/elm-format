@@ -3,10 +3,10 @@ module Parse.Parse (parse, parseModule, parseDeclarations, parseExpressions) whe
 
 import qualified Text.Parsec.Error as Parsec
 
-import AST.V0_16 (WithEol)
-import AST.Declaration (TopLevelStructure, Declaration)
-import qualified AST.Expression
-import qualified AST.Module
+import ASTf.V0_16 (WithEol)
+import ASTf.Declaration (TopLevelStructure, Declaration)
+import qualified ASTf.Expression
+import qualified ASTf.Module
 import ElmVersion hiding (parse)
 import Parse.Comments (withEol)
 import qualified Parse.Declaration
@@ -20,7 +20,7 @@ import Parse.IParser
 import Text.Parsec (eof)
 
 
-parseModule :: ElmVersion -> String -> Result.Result () Error.Error AST.Module.Module
+parseModule :: ElmVersion -> String -> Result.Result () Error.Error ASTf.Module.Module
 parseModule elmVersion src =
     parse src (Parse.Module.elmModule elmVersion)
 
@@ -30,7 +30,7 @@ parseDeclarations elmVersion src =
     parse src (Parse.Module.topLevel (Parse.Declaration.declaration elmVersion) <* eof)
 
 
-parseExpressions :: ElmVersion -> String -> Result.Result () Error.Error [TopLevelStructure (WithEol AST.Expression.Expr)]
+parseExpressions :: ElmVersion -> String -> Result.Result () Error.Error [TopLevelStructure (WithEol ASTf.Expression.Expr)]
 parseExpressions elmVersion src =
     parse src (Parse.Module.topLevel (withEol $ Parse.Expression.expr elmVersion) <* eof)
 

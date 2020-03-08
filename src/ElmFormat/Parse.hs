@@ -2,9 +2,9 @@
 module ElmFormat.Parse where
 
 import Elm.Utils ((|>))
-import AST.V0_16
+import ASTf.V0_16
 
-import qualified AST.Module
+import qualified ASTf.Module
 import qualified Data.Text as Text
 import ElmVersion
 import qualified Parse.Literal
@@ -14,7 +14,7 @@ import qualified Reporting.Result as Result
 import qualified Reporting.Annotation as RA
 
 
-parse :: ElmVersion -> Text.Text -> Result.Result () Syntax.Error AST.Module.Module
+parse :: ElmVersion -> Text.Text -> Result.Result () Syntax.Error ASTf.Module.Module
 parse elmVersion input =
     Text.unpack input
         |> Parse.parseModule elmVersion

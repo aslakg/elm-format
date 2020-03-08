@@ -5,7 +5,7 @@ import Text.Parsec ((<|>), (<?>), char, many1, string, try, optionMaybe)
 
 import Parse.Helpers
 import qualified Reporting.Annotation as A
-import qualified AST.V0_16 as AST
+import qualified ASTf.V0_16 as AST
 import ElmVersion
 import Parse.IParser
 import Parse.Common

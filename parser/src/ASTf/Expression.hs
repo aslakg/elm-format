@@ -1,9 +1,9 @@
 {-# LANGUAGE DuplicateRecordFields #-}
-module AST.Expression where
+module ASTf.Expression where
 
-import AST.V0_16
-import qualified AST.Pattern as Pattern
-import qualified AST.Variable as Var
+import ASTf.V0_16
+import qualified ASTf.Pattern as Pattern
+import qualified ASTf.Variable as Var
 import qualified Reporting.Annotation as A
 
 
