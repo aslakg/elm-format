@@ -10,7 +10,7 @@ module ElmFormat.Render.ElmStructure
 
 import Elm.Utils ((|>))
 import Box
-import ASTf.V0_16 (FunctionApplicationMultiline(..), Multiline(..))
+import ElmFormat.AST.V0_16 (FunctionApplicationMultiline(..), Multiline(..))
 
 import qualified Data.List as List
 

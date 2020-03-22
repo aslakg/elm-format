@@ -5,14 +5,14 @@ import Elm.Utils ((|>))
 import Box
 import ElmVersion (ElmVersion(..))
 
-import qualified ASTf.V0_16 as ASTf
-import ASTf.V0_16 (UppercaseIdentifier(..), LowercaseIdentifier(..), SymbolIdentifier(..), WithEol)
-import ASTf.Declaration (TopLevelStructure, Declaration)
-import qualified ASTf.Declaration
-import qualified ASTf.Expression
-import qualified ASTf.Module
-import qualified ASTf.Pattern
-import qualified ASTf.Variable
+import qualified ElmFormat.AST.V0_16 as ASTf
+import ElmFormat.AST.V0_16 (UppercaseIdentifier(..), LowercaseIdentifier(..), SymbolIdentifier(..), WithEol)
+import ElmFormat.AST.Declaration (TopLevelStructure, Declaration)
+import qualified ElmFormat.AST.Declaration
+import qualified ElmFormat.AST.Expression
+import qualified ElmFormat.AST.Module
+import qualified ElmFormat.AST.Pattern
+import qualified ElmFormat.AST.Variable
 import qualified Cheapskate.Types as Markdown
 import qualified Control.Monad as Monad
 import qualified Data.Char as Char

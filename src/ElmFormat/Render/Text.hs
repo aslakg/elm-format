@@ -3,9 +3,9 @@ module ElmFormat.Render.Text where
 
 import Elm.Utils ((|>))
 import ElmVersion (ElmVersion)
-import ASTf.V0_16
+import ElmFormat.AST.V0_16
 
-import qualified ASTf.Module
+import qualified ElmFormat.AST.Module
 import qualified Box
 import qualified Data.Text as Text
 import qualified ElmFormat.Render.Box as Render

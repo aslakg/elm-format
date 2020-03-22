@@ -2,11 +2,11 @@
 {-# LANGUAGE FlexibleInstances #-}
 module ElmFormat.Upgrade_0_19 (transform) where
 
-import ASTf.V0_16
-import ASTf.Expression
-import ASTf.MapExpr
-import ASTf.Pattern
-import ASTf.Variable
+import ElmFormat.AST.V0_16
+import ElmFormat.AST.Expression
+import ElmFormat.AST.MapExpr
+import ElmFormat.AST.Pattern
+import ElmFormat.AST.Variable
 import Reporting.Annotation (Located(A))
 
 import qualified Data.Map.Strict as Dict

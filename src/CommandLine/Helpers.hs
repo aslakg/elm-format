@@ -6,9 +6,9 @@ import Messages.Types (ErrorMessage(..))
 import Messages.Strings (showErrorMessage)
 import ElmFormat.World
 
-import qualified Reporting.Annotation as RA
-import qualified Reporting.Report as Report
-import qualified Reporting.Error.Syntax as Syntax
+import qualified ElmFormat.Reporting.Annotation as RA
+import qualified ElmFormat.Reporting.ReportEF as Report
+import qualified ElmFormat.Reporting.Error.Syntax as Syntax
 
 
 r :: ErrorMessage -> String

@@ -3,7 +3,7 @@ module Test.Generators where
 import Data.Map.Strict
 import Test.QuickCheck
 
-import ASTf.V0_16
+import ElmFormat.AST.V0_16
 import qualified ASTf.Declaration
 import qualified ASTf.Expression
 import qualified ASTf.Module

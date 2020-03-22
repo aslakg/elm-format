@@ -2,19 +2,19 @@
 module ElmFormat.Parse where
 
 import Elm.Utils ((|>))
-import ASTf.V0_16
+import ElmFormat.AST.V0_16
 
-import qualified ASTf.Module
+import qualified ElmFormat.AST.Module
 import qualified Data.Text as Text
 import ElmVersion
-import qualified Parse.Literal
-import qualified Parse.Parse as Parse
-import qualified Reporting.Error.Syntax as Syntax
-import qualified Reporting.Result as Result
-import qualified Reporting.Annotation as RA
+import qualified ElmFormat.Parse.Literal as L
+import qualified ElmFormat.Parse.Parse as Parse
+import qualified ElmFormat.Reporting.Error.Syntax as Syntax
+import qualified ElmFormat.Reporting.Result as Result
+import qualified ElmFormat.Reporting.Annotation as RA
 
 
-parse :: ElmVersion -> Text.Text -> Result.Result () Syntax.Error ASTf.Module.Module
+-- parse :: ElmVersion -> Text.Text -> Result.Result () Syntax.Error ElmFormat.AST.Module.Module
 parse elmVersion input =
     Text.unpack input
         |> Parse.parseModule elmVersion
@@ -37,6 +37,6 @@ toEither res =
             Left $ map RA.drop b
 
 
-parseLiteral :: Text.Text -> Result.Result () Syntax.Error Literal
+-- parseLiteral :: Text.Text -> Result.Result () Syntax.Error Literal
 parseLiteral input =
-     Parse.parse (Text.unpack input) Parse.Literal.literal
+    Parse.parse (Text.unpack input) L.literal

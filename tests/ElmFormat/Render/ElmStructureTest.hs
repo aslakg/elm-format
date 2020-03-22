@@ -7,7 +7,7 @@ import Test.Tasty.HUnit
 import qualified Data.Text.Lazy as LazyText
 import qualified Data.Text as Text
 
-import ASTf.V0_16
+import ElmFormat.AST.V0_16
 import Box
 import ElmFormat.Render.ElmStructure
 

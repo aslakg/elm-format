@@ -16,9 +16,9 @@ import ElmFormat.InputConsole (InputConsole)
 import ElmFormat.OutputConsole (OutputConsole)
 import ElmFormat.World
 
-import qualified ASTf.Json
-import qualified ASTf.Module
-import qualified Flags
+import qualified ElmFormat.AST.Json
+import qualified ElmFormat.AST.Module
+import qualified ElmFormat.Flags as Flags
 import qualified Data.Text as Text
 import qualified ElmFormat.Execute as Execute
 import qualified ElmFormat.InputConsole as InputConsole

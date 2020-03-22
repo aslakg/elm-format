@@ -4,8 +4,8 @@ import Test.Tasty
 import Test.Tasty.HUnit
 
 import Parse.Pattern
-import ASTf.V0_16
-import ASTf.Pattern
+import ElmFormat.AST.V0_16
+import ElmFormat.AST.Pattern
 import ElmVersion
 
 import Parse.TestHelpers
