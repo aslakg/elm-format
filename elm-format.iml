@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/markdown" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generated" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.stack-work" />
+      <excludeFolder url="file://$MODULE_DIR$/parser/bench" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
