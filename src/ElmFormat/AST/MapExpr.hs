@@ -2,10 +2,10 @@
 module ElmFormat.AST.MapExpr where
 
 import ElmFormat.AST.V0_16
-import ElmFormat.AST.Expression
+import ElmFormat.AST.Expression --as AST.Expression
 import ElmFormat.AST.Pattern
 import ElmFormat.AST.Variable
-import Reporting.Annotation
+import ElmFormat.Reporting.Annotation
 
 
 class MapExpr a where
@@ -43,10 +43,8 @@ instance MapExpr a => MapExpr (Commented Pattern, a) where
 instance MapExpr a => MapExpr (Comments, Ref, Comments, a) where
     mapExpr f (pre, op, post, a) = (pre, op, post, mapExpr f a)
 
-
 instance MapExpr a => MapExpr (Commented a) where
     mapExpr f (Commented pre e post) = Commented pre (mapExpr f e) post
-
 
 instance MapExpr a => MapExpr (Pair key a) where
     mapExpr f (Pair key value multi) = Pair key (mapExpr f value) multi
@@ -56,7 +54,7 @@ instance MapExpr Expr' where
   mapExpr f expr =
     case expr of
         Unit _ -> expr
-        ASTf.Expression.Literal _ -> expr
+        ElmFormat.AST.Expression.Literal _ -> expr
         VarExpr _ -> expr
 
         App f' args multiline ->
@@ -71,11 +69,11 @@ instance MapExpr Expr' where
             ExplicitList (mapExpr f terms') post multiline
         Range e1 e2 multiline ->
             Range (mapExpr f e1) (mapExpr f e2) multiline
-        ASTf.Expression.Tuple es multiline ->
-            ASTf.Expression.Tuple (mapExpr f es) multiline
+        ElmFormat.AST.Expression.Tuple es multiline ->
+            ElmFormat.AST.Expression.Tuple (mapExpr f es) multiline
         TupleFunction _ -> expr
-        ASTf.Expression.Record b fs post multiline ->
-            ASTf.Expression.Record b (mapExpr f fs) post multiline
+        ElmFormat.AST.Expression.Record b fs post multiline ->
+            ElmFormat.AST.Expression.Record b (mapExpr f fs) post multiline
         Access e field' ->
             Access (mapExpr f e) field'
         AccessFunction _ -> expr

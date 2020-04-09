@@ -5,13 +5,13 @@ import Elm.Utils ((|>))
 import ElmVersion (ElmVersion)
 import ElmFormat.AST.V0_16
 
-import qualified ElmFormat.AST.Module
+import qualified ElmFormat.AST.Module as Module
 import qualified Box
 import qualified Data.Text as Text
 import qualified ElmFormat.Render.Box as Render
 
 
-render :: ElmVersion -> ASTf.Module.Module -> Text.Text
+render :: ElmVersion -> Module.Module -> Text.Text
 render elmVersion modu =
     renderBox $ Render.formatModule elmVersion True 2 modu
 

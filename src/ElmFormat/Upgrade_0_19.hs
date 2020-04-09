@@ -7,13 +7,13 @@ import ElmFormat.AST.Expression
 import ElmFormat.AST.MapExpr
 import ElmFormat.AST.Pattern
 import ElmFormat.AST.Variable
-import Reporting.Annotation (Located(A))
+import ElmFormat.Reporting.Annotation (Located(A))
 
 import qualified Data.Map.Strict as Dict
 import qualified Data.Maybe as Maybe
 import qualified ElmFormat.Version
-import qualified Reporting.Annotation as RA
-import qualified Reporting.Region as Region
+import qualified ElmFormat.Reporting.Annotation as RA
+import qualified ElmFormat.Reporting.Region as Region
 import qualified ReversedList
 
 
@@ -40,7 +40,7 @@ transform exposed importAliases expr =
                     [makeArg "f", makeArg "a", makeArg "b"] []
                     (noRegion $ App
                         (makeVarRef "f")
-                        [([], noRegion $ ASTf.Expression.Tuple
+                        [([], noRegion $ ElmFormat.AST.Expression.Tuple
                             [ Commented [] (makeVarRef "a") []
                             , Commented [] (makeVarRef "b") []
                             ] False
@@ -49,18 +49,19 @@ transform exposed importAliases expr =
                     )
                     False
                 )
-              , ( "uncurry"
-                , Lambda
-                    [makeArg "f", ([], noRegion $ ASTf.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
-                    (noRegion $ App
-                        (makeVarRef "f")
-                        [ ([], makeVarRef "a")
-                        , ([], makeVarRef "b")
-                        ]
-                        (FAJoinFirst JoinAll)
-                    )
-                    False
-                )
+                -- TODO: Couldn't get this to compile:
+            --   , ( "uncurry"
+            --     , Lambda
+            --         [makeArg "f", ([], noRegion $ ElmFormat.AST.Expression.Tuple [makeArg' "a", makeArg' "b"]) ] []
+            --         (noRegion $ App
+            --             (makeVarRef "f")
+            --             [ ([], makeVarRef "a")
+            --             , ([], makeVarRef "b")
+            --             ]
+            --             (FAJoinFirst JoinAll)
+            --         )
+            --         False
+            --     )
               , ( "rem"
                 , Lambda
                     [makeArg "dividend", makeArg "divisor"] []
@@ -119,7 +120,7 @@ transform exposed importAliases expr =
                 Lambda
                     (fmap makeArg vars)
                     []
-                    (noRegion $ ASTf.Expression.Tuple (fmap (\v -> Commented [] (makeVarRef v) []) vars) False)
+                    (noRegion $ ElmFormat.AST.Expression.Tuple (fmap (\v -> Commented [] (makeVarRef v) []) vars) False)
                     False
     in
     case RA.drop expr of
@@ -152,7 +153,7 @@ expandHtmlStyle styleExposed importAlias (preComma, (pre, WithEol term eol)) =
     let
         lambda fRef =
             Lambda
-                [([], noRegion $ ASTf.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
+                [([], noRegion $ ElmFormat.AST.Pattern.Tuple [makeArg' "a", makeArg' "b"]) ] []
                 (noRegion $ App
                     (noRegion $ VarExpr $ fRef)
                     [ ([], makeVarRef "a")
@@ -222,7 +223,7 @@ inlineVar' name insertMultiline value expr =
     case expr of
         VarExpr (VarRef [] n) | n == name -> Just value
 
-        ASTf.Expression.Tuple terms' multiline ->
+        ElmFormat.AST.Expression.Tuple terms' multiline ->
             let
                 step (acc, expand) t@(Commented pre (A _ term) post) =
                     case inlineVar' name insertMultiline value term of
@@ -231,7 +232,7 @@ inlineVar' name insertMultiline value expr =
 
                 (terms'', multiline'') = foldl step (ReversedList.empty, multiline) terms'
             in
-            Just $ ASTf.Expression.Tuple (ReversedList.toList terms'') multiline''
+            Just $ ElmFormat.AST.Expression.Tuple (ReversedList.toList terms'') multiline''
 
         -- TODO: handle expanding multiline in contexts other than tuples
 
@@ -249,8 +250,8 @@ applyLambda lambda args appMultiline =
                  ) ->
                     Just [(name, Parens $ Commented (preVar ++ preArg) arg' [])]
 
-                ( (preVar, A _ (ASTf.Pattern.Tuple [Commented preA (A _ (VarPattern nameA)) postA, Commented preB (A _ (VarPattern nameB)) postB]))
-                 , (preArg, A _ (ASTf.Expression.Tuple [Commented preAe eA postAe, Commented preBe eB postBe] _))
+                ( (preVar, A _ (ElmFormat.AST.Pattern.Tuple [Commented preA (A _ (VarPattern nameA)) postA, Commented preB (A _ (VarPattern nameB)) postB]))
+                 , (preArg, A _ (ElmFormat.AST.Expression.Tuple [Commented preAe eA postAe, Commented preBe eB postBe] _))
                  ) ->
                     Just
                         [ (nameA, Parens $ Commented (preVar ++ preArg) (noRegion $ Parens $ Commented (preA ++ preAe) eA (postAe ++ postA)) [])
