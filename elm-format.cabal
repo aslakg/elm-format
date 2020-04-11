@@ -33,7 +33,7 @@ source-repository head
 library
 
     ghc-options:
-        -O2 -Wall -Wno-name-shadowing
+        -Wall -Wno-name-shadowing
 
     hs-source-dirs:
         src
